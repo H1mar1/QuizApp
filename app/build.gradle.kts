@@ -6,6 +6,10 @@ android {
     namespace = "com.example.quizapp"
     compileSdk {
         version = release(36)
+
+        buildFeatures{
+            viewBinding=true
+        }
     }
 
     defaultConfig {
