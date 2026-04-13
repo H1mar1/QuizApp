@@ -2,13 +2,19 @@ package com.example.quizapp
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.quizapp.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity() {
+
+    companion object{
+        const val QUIZ_COUNT=5
+    }
 
     private  lateinit var  binding: ActivityMainBinding
     private  var rightAnswer: String?=null
@@ -50,11 +56,13 @@ class MainActivity : AppCompatActivity() {
 
     //クイズを出題する
     private  fun showNextQuiz(){
+        //カウントトラベラの更新
+        binding.countLabel.text=getString(R.string.count_label,quizCount)
         //クイズを1問取り出す
-        val quiz=quizData[0]
+        val quiz = quizData[0]
 
         //問題をセット
-        binding.questionLabel.text=quiz[0]
+        binding.questionLabel.text = quiz[0]
 
         //正解をセット
         rightAnswer=quiz[1]
@@ -66,20 +74,48 @@ class MainActivity : AppCompatActivity() {
         quiz.shuffle()
 
         //選択ををセット
-        binding.answerBtn1.text=quiz[1]
-        binding.answerBtn2.text=quiz[2]
-        binding.answerBtn3.text=quiz[3]
-        binding.answerBtn4.text=quiz[4]
+        binding.answerBtn1.text=quiz[0]
+        binding.answerBtn2.text=quiz[1]
+        binding.answerBtn3.text=quiz[2]
+        binding.answerBtn4.text=quiz[3]
 
         //出題したクイズを削除する
         quizData.removeAt(0)
     }
 
     //解答ボタンが押されたら呼ばれる
-    private  fun checkAnswer(View: View){
+    private  fun checkAnswer(view: View){
+        //どの解答ボタンが押されたか
+        val answerBtn: Button=findViewById(view.id)
+        val btnText=answerBtn.text.toString()
+
+        //ダイアログのタイトルを作成
+        val alertTitle: String
+        if(btnText==rightAnswer){
+            alertTitle="正解！"
+            rightAnswerCount++
+        }else{
+            alertTitle="不正解..."
+        }
+
+        //ダイアログを作成
+        MaterialAlertDialogBuilder(this)
+            .setTitle(alertTitle)
+            .setMessage("答え：$rightAnswer")
+            .setPositiveButton("OK"){dialogInterface,i ->
+                checkQuizCount()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     //出題数をチェックする
     private  fun checkQuizCount(){
+        if(quizCount==QUIZ_COUNT){
+            //結果画面を表示
+        }else{
+            quizCount++
+            showNextQuiz()
+        }
     }
 }

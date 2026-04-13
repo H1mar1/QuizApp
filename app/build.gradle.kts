@@ -1,16 +1,17 @@
+//import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
+
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.example.quizapp"
-    compileSdk {
-        version = release(36)
-
-        buildFeatures{
-            viewBinding=true
-        }
+    compileSdk = 36
+    buildFeatures {
+        viewBinding = true
     }
+
 
     defaultConfig {
         applicationId = "com.example.quizapp"
@@ -35,6 +36,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
@@ -46,5 +50,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.google.android.material:material:1.12.0")
 }
