@@ -3,6 +3,7 @@ package com.example.quizapp
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.content.Intent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -113,6 +114,14 @@ class MainActivity : AppCompatActivity() {
     private  fun checkQuizCount(){
         if(quizCount==QUIZ_COUNT){
             //結果画面を表示
+            val intent = Intent(this, ResultActivity::class.java)
+
+            // 結果画面へスコア（正解数）を渡す
+            intent.putExtra("RIGHT_ANSWER_COUNT", rightAnswerCount)
+
+            startActivity(intent)
+            finish()
+
         }else{
             quizCount++
             showNextQuiz()
