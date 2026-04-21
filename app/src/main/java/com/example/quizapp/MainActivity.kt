@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     private  fun checkQuizCount(){
         if(quizCount==QUIZ_COUNT){
             //結果画面を表示
-            val intent = Intent(this, ResultActivity::class.java)
+            val intent = Intent(this@MainActivity, ResultActivity::class.java)
 
             // 結果画面へスコア（正解数）を渡す
             intent.putExtra("RIGHT_ANSWER_COUNT", rightAnswerCount)
